@@ -180,6 +180,7 @@ const calURL="https://calendar.google.com/calendar/render?action=TEMPLATE"
 $("cal").href=$("cal-btn").href=calURL;
 // guest name from ?to=Nama
 const to=new URLSearchParams(location.search).get("to");if(to)$("guest").textContent=to;
+  if(to)document.querySelector("[name=name]").value=to;
 // countdown
 function tick(){let t=Math.max(0,start-Date.now())/1000|0;
  $("d").textContent=t/86400|0;$("h").textContent=t%86400/3600|0;$("m").textContent=t%3600/60|0;$("s").textContent=t%60}
