@@ -48,7 +48,7 @@ a{color:inherit}
 iframe{width:100%;height:280px;border:0;border-radius:8px;margin-top:12px;filter:grayscale(.6)}
   /* gallery */
 #gallery{padding-left:0;padding-right:0}
-#slider{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 11%;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#slider{cursor:grab;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 11%;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 #slider::-webkit-scrollbar{display:none}
 #slider img{flex:0 0 78%;aspect-ratio:3/4;object-fit:cover;border-radius:8px;scroll-snap-align:center;background:#2a3a41}
 #dots{display:flex;justify-content:center;gap:8px;margin-top:18px}
@@ -242,6 +242,12 @@ sl.addEventListener("scroll",mark,{passive:true});
 setInterval(()=>{if(Date.now()<pause||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
  sl.scrollTo({left:((cur+1)%GALLERY.length)*step(),behavior:"smooth"})},4000);
 mark();
+  // drag dengan mouse (laptop)
+let down=false,sx=0,s0=0;
+sl.addEventListener("pointerdown",e=>{if(e.pointerType!=="mouse")return;down=true;sx=e.clientX;s0=sl.scrollLeft;sl.style.scrollSnapType="none";sl.style.cursor="grabbing";pause=Date.now()+8000});
+window.addEventListener("pointermove",e=>{if(down)sl.scrollLeft=s0-(e.clientX-sx)});
+window.addEventListener("pointerup",()=>{if(!down)return;down=false;sl.style.cursor="";sl.style.scrollSnapType=""});
+sl.addEventListener("dragstart",e=>e.preventDefault());
 </script>
 </body>
 </html>
